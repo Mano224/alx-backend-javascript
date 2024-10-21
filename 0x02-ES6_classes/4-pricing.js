@@ -1,48 +1,50 @@
-import Currency from './3-currency'
+import Currency from './3-currency';
 
-export default class Pricing{
+export default class Pricing {
+  constructor(amount, currency) {
+    this.amount = amount;
+    this.currency = currency;
+  }
 
-    constructor(_amount, _currency){
-        this.amount = _amount;
-        this.currency = _currency;
+  get amount() {
+    return this._amount;
+  }
+
+  set amount(value) {
+    if (typeof value !== 'number') {
+      throw new TypeError('amount must be a number');
     }
+    this._amount = value;
+  }
 
-    get amount() {
-        return this._amount;
-      }
-    
-      set amount(value) {
-        if (typeof value !== 'number') {
-          throw new TypeError('amount must be a number');
-        }
-        this.amount = value;
-      }
+  /**
+   * @returns {Currency}
+   */
+  get currency() {
+    return this._currency;
+  }
 
-    
-    get currency(){
-        return this.currency
+  /**
+   * @param {Currency} value
+   */
+  set currency(value) {
+    if (!(value instanceof Currency)) {
+      throw new TypeError('currency must be a Currency');
     }
-    set currency(value){
-        if(!( value instanceof Currency)){
-            throw new TypeError('currency must be a Currency');
-        }
-        this.currency = value
+    this._currency = value;
+  }
+
+  displayFullPrice() {
+    return `${this.amount} ${this.currency.name} (${this.currency.code})`;
+  }
+
+  static convertPrice(amount, conversionRate) {
+    if (typeof amount !== 'number') {
+      throw new TypeError('amount must be a number');
     }
-
-    displayFullPrice(){
-        return `${this.amount} ${this.currency.name} (${this.currency.code})`
+    if (typeof conversionRate !== 'number') {
+      throw new TypeError('conversionRate must be a number');
     }
-    static convertPrice(amount, conversionRate){
-        if (typeof amount !== 'number') {
-            throw new TypeError('amount must be a number');
-          }
-          if (typeof conversionRate !== 'number') {
-            throw new TypeError('conversionRate must be a number');
-          }
-          return amount * conversionRate;
-
-    }
-
-
-
+    return amount * conversionRate;
+  }
 }
